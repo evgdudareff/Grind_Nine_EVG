@@ -6,7 +6,8 @@ import java.util.List;
 
 public class Filter3 implements FlightFilter {
 
-    long maxTimeOnEarth = 2;
+    // 2 часа
+    long maxTimeOnEarthMs = 7200000;
     List<Flight> resultFlights = new ArrayList<>();
 
     @Override
@@ -25,13 +26,13 @@ public class Filter3 implements FlightFilter {
             for (int i = 0; i < segmentsSize - 1; i++) {
                 Segment currSegment = segments.get(i);
                 Segment nextSegment = segments.get(i + 1);
-                currSegmentsTotalTimeOnEarth = currSegmentsTotalTimeOnEarth + Duration.between(currSegment.getArrivalDate(), nextSegment.getDepartureDate()).toHours();
-                if (currSegmentsTotalTimeOnEarth > maxTimeOnEarth) {
+                currSegmentsTotalTimeOnEarth = currSegmentsTotalTimeOnEarth + Duration.between(currSegment.getArrivalDate(), nextSegment.getDepartureDate()).toMillis();
+                if (currSegmentsTotalTimeOnEarth > maxTimeOnEarthMs) {
                     break;
                 }
             }
 
-            if (currSegmentsTotalTimeOnEarth <= maxTimeOnEarth) {
+            if (currSegmentsTotalTimeOnEarth <= maxTimeOnEarthMs) {
                 resultFlights.add(flight);
             }
         }
